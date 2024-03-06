@@ -1,10 +1,22 @@
 // pages/api/text.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  res.setHeader('Content-Type', 'text/plain');
-  res.status(200).send('NOTRE API');
+
+  try {
+    const response = await fetch('http://localhost:3001/api/random', { cache: 'force-cache' });
+
+    if (!response.ok) {
+      res.status(500).send('La requête à l\'API externe a échoué');
+      return ;
+    }
+
+    const data = await response.json();
+    res.status(200).json({'content': "L'api fonctionne, chiffre " + data.randomValue});
+  } catch (error) {
+    res.status(500).send('Erreur');
+  }
 }
