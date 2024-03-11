@@ -7,7 +7,7 @@ export default async function handler(
 ) {
 
   try {
-    const response = await fetch('http://localhost:3001/api/random', { cache: 'force-cache' });
+    const response = await fetch("back-end-service.default.svc.cluster.local:80/api/random", { cache: 'force-cache' });
 
     if (!response.ok) {
       res.status(500).send('La requête à l\'API externe a échoué');
